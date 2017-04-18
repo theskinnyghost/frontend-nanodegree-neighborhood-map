@@ -1,0 +1,21 @@
+{
+  "name": "frontend-nanodegree-neighborhood-map",
+  "homepage": "https://github.com/theskinnyghostforudacity/frontend-nanodegree-neighborhood-map",
+  "authors": [
+    "Luca Ricci <theskinnyghost@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "jQuery": "^3.2.1",
+    "knockout": "^3.4.2"
+  }
+}

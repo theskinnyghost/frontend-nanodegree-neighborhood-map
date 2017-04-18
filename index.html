@@ -2,8 +2,43 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>Neighborhood Map</title>
+        <link rel="stylesheet" type="text/css" href="bower_components/normalize-css/normalize.css">
+        <link rel="stylesheet" type="text/css" href="dist/styles/app.css">
     </head>
     <body>
+
+        <div id="map" class="map"></div>
+        <!-- /#map -->
+
+        <div class="app">
+            <div class="app__inner">
+
+                <!-- <label class="search">
+                    <span class="search__label"><i class="glyphicon glyphicon-search"></i></span>
+                    <input type="text" class="search__input"></input>
+                </label> -->
+
+                <h1>All the tattoo studios in Perth</h1>
+                <ul class="list" data-bind="foreach: places">
+                    <li class="list__item">
+                        <span data-bind="click: focusOnElement, text: name"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- <div class="itemInfo" data-bind="">
+            <h1 data-bind="">prova</h1>
+            <div data-bind="">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</div>
+        </div> -->
+
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTxfE1nvYvl4IBrcGyExaX8sVD-sftC2c&callback=initMap"></script>
+        <script src="bower_components/jQuery/dist/jquery.min.js"></script>
+        <script src="bower_components/knockout/dist/knockout.js"></script>
+
+        <script src="src/scripts/Model.js"></script>
+        <script src="src/scripts/App.js"></script>
     </body>
 </html>
