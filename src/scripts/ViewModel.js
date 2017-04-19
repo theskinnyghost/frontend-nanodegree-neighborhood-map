@@ -79,4 +79,9 @@ app.ListViewModel = function() {
         });
     };
 
+    //
+    self.places.forEach(function(place) {
+        place.setData();
+    });
+
 };

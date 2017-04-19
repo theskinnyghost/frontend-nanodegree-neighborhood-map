@@ -1,47 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+
         <meta charset="UTF-8">
         <title>Neighborhood Map</title>
         <link rel="stylesheet" type="text/css" href="bower_components/normalize-css/normalize.css">
         <link rel="stylesheet" type="text/css" href="dist/styles/app.css">
+
     </head>
+
     <body>
 
         <div id="map" class="map"></div>
         <!-- /#map -->
 
+        <div id="error"></div>
+        <!-- /#error -->
+
         <div class="app">
+
             <div class="app__inner">
 
                 <label class="search">
-                    <input type="text" class="search__input" data-bind="textInput: searchQuery, event: {keyup: filterMarkers}"></input>
+
+                    <input  type="text"
+                            class="search__input"
+                            data-bind="textInput: searchQuery, event: {keyup: filterMarkers}"></input>
+
                 </label>
 
                 <h1>All the tattoo studios in Perth</h1>
 
                 <div class="itemInfo" data-bind="with: currentPlace, visible: shouldShowCurrentPlace">
+
                     <button data-bind="click: $parent.closeInfoBox"></button>
+
                     <h1 data-bind="text: name"></h1>
-                    <h2 data-bind="text: rating"></h2>
-                    <span data-bind="text: address"></span>
+
+                    <h2 data-bind="text: address"></h2>
+
+                    <!-- ko if: yelp_data.is_found -->
+
+                        <img width="100" data-bind="attr: {src: yelp_data.image}">
+
+                        <span>
+                            <span data-bind="text: yelp_data.rating"></span>
+                            <span data-bind="text: yelp_data.review_count"></span>
+                        </span>
+
+                        <span>
+                            <a data-bind="text: yelp_data.display_phone, attr: {href: 'tel:' + yelp_data.phone}"></a>
+                        </span>
+
+                        <span>
+                            <a data-bind="text: 'Find out more on YELP', attr: {href: yelp_data.url}"></a>
+                        </span>
+
+                    <!-- /ko -->
+
+                    <!-- ko if: !yelp_data.is_found -->
+                        <p>We're sorry but we couldn't find any data related to this business.</p>
+                    <!-- /ko -->
+
+                    <p>All the data are provided by YELP!</p>
+
                 </div>
 
                 <ul class="list" data-bind="foreach: visiblePlaces">
+
                     <li class="list__item">
+
                         <span data-bind="click: $parent.showCurrentPlace, text: name"></span>
+
                     </li>
+
                 </ul>
+
             </div>
+
         </div>
 
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTxfE1nvYvl4IBrcGyExaX8sVD-sftC2c&callback=app.init"></script>
         <script src="bower_components/jQuery/dist/jquery.min.js"></script>
         <script src="bower_components/knockout/dist/knockout.js"></script>
-
         <script src="src/scripts/Model.js"></script>
         <script src="src/scripts/TattooShop.js"></script>
         <script src="src/scripts/ViewModel.js"></script>
         <script src="src/scripts/App.js"></script>
+
     </body>
+
 </html>
