@@ -14,31 +14,34 @@
         <div class="app">
             <div class="app__inner">
 
-                <!-- <label class="search">
-                    <span class="search__label"><i class="glyphicon glyphicon-search"></i></span>
-                    <input type="text" class="search__input"></input>
-                </label> -->
+                <label class="search">
+                    <input type="text" class="search__input" data-bind="textInput: searchQuery, event: {keyup: filterMarkers}"></input>
+                </label>
 
                 <h1>All the tattoo studios in Perth</h1>
-                <ul class="list" data-bind="foreach: places">
+
+                <div class="itemInfo" data-bind="with: currentPlace, visible: shouldShowCurrentPlace">
+                    <button data-bind="click: $parent.closeInfoBox"></button>
+                    <h1 data-bind="text: name"></h1>
+                    <h2 data-bind="text: rating"></h2>
+                    <span data-bind="text: address"></span>
+                </div>
+
+                <ul class="list" data-bind="foreach: visiblePlaces">
                     <li class="list__item">
-                        <span data-bind="click: focusOnElement, text: name"></span>
+                        <span data-bind="click: $parent.showCurrentPlace, text: name"></span>
                     </li>
                 </ul>
             </div>
         </div>
 
-        <!-- <div class="itemInfo" data-bind="">
-            <h1 data-bind="">prova</h1>
-            <div data-bind="">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</div>
-        </div> -->
-
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTxfE1nvYvl4IBrcGyExaX8sVD-sftC2c&callback=initMap"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTxfE1nvYvl4IBrcGyExaX8sVD-sftC2c&callback=app.init"></script>
         <script src="bower_components/jQuery/dist/jquery.min.js"></script>
         <script src="bower_components/knockout/dist/knockout.js"></script>
 
         <script src="src/scripts/Model.js"></script>
+        <script src="src/scripts/TattooShop.js"></script>
+        <script src="src/scripts/ViewModel.js"></script>
         <script src="src/scripts/App.js"></script>
     </body>
 </html>
