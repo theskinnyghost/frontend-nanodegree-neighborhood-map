@@ -1,0 +1,19 @@
+.wrapper {
+    background-color: $white;
+    left: 0;
+    height: $f_height;
+    max-width: $wrapper_width;
+    overflow-y: auto;
+    position: absolute;
+    top: 0;
+    width: $wrapper_width;
+    z-index: 2;
+
+    &--hidden {
+        display: none;
+    }
+}
+
+.wrapper-inner {
+    padding-top: 50px;
+}

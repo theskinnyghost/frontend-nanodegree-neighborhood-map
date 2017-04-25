@@ -1,0 +1,75 @@
+%shop__spacer {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.shop {
+    border-bottom: 1px solid $tropical_rain_forest;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    @media screen and (min-width: 768px) {
+        background-color: $white;
+        top: 10px;
+        max-width: $wrapper-width;
+        position: fixed;
+        right: 30px;
+    }
+}
+
+.shop__close {
+    background-color: $white;
+    border: 0;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+
+    &:hover {
+        opacity: .6;
+    }
+}
+
+.shop__title {
+    @extend %shop__spacer;
+
+    font-size: 30px;
+    line-height: 1.2;
+    margin: 10px 0 7px;
+    text-transform: uppercase;
+}
+
+.shop__info {
+    @extend %shop__spacer;
+
+    font-size: 14px;
+    line-height: 1.8;
+    list-style: none;
+    margin: 0;
+
+    a {
+        color: inherit;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.shop__image {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 150px;
+    order: -1;
+    width: 100%;
+}
+
+.shop__error {
+    @extend %shop__spacer;
+}

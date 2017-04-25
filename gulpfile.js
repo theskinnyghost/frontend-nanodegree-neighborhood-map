@@ -4,29 +4,32 @@ var gulp = require('gulp'),
     del = require('del'),
     sourcemaps = require('gulp-sourcemaps'),
     concat = require('gulp-concat'),
-    browserSync = require('browser-sync').create(),
-    reload = browserSync.reload;
-
-var sass = require('gulp-sass'),
+    runSequence = require('run-sequence'),
+    cache = require('gulp-cache'),
+    imagemin = require('gulp-imagemin'),
+    sass = require('gulp-sass'),
     csso = require('gulp-csso'),
-    autoprefixer = require('gulp-autoprefixer');
-
-var uglify = require('gulp-uglify'),
-    jshint = require('gulp-jshint'),
-    jshintstylish = require('jshint-stylish');
+    autoprefixer = require('gulp-autoprefixer'),
+    uglify = require('gulp-uglify');
 
 /**
 -- Paths
 */
 var paths = {
-    input: {
-        'styles': 'src/styles/**/*.scss',
-        'scripts': 'src/scripts/**/*.js'
+    bower   : 'bower_components',
+    source  : 'src',
+    build   : 'dist',
+    input   : {
+        'styles'    : 'src/styles/**/*.scss',
+        'scripts'   : 'src/scripts/**/*.js',
+        'images'    : 'src/images/**/*',
+        'fonts'     : 'bower_components/font-awesome/fonts/**/*'
     },
-    output: {
-        'build': 'dist',
-        'styles': 'dist/styles',
-        'scripts': 'dist/scripts'
+    output  : {
+        'styles'    : 'dist/styles',
+        'scripts'   : 'dist/scripts',
+        'images'    : 'dist/images',
+        'fonts'     : 'dist/fonts'
     }
 };
 
@@ -34,23 +37,52 @@ var paths = {
 -- Config
 */
 var config = {
-    sass: {
-        errLogToConsole: true,
-        outputStyle: 'expanded'
+    production: !!gutil.env.production,
+    plugins: {
+        sass: {
+            errLogToConsole: true,
+            outputStyle: 'expanded'
+        },
+        autoprefixer: {
+            browsers: ['> 1%'],
+            cascade: false
+        },
+        imagemin: {
+            optimizationLevel: 3,
+            progressive: true,
+            interlaced: true
+        },
+        csso: {
+            sourceMap: true,
+        }
     },
-    autoprefixer: {
-        browsers: ['last 2 versions', 'IE >= 9'],
-        cascade: false
-    }
-};
-
-var errors = {
-    sass: {
-        title: 'Sass Error',
-        subtitle: '<%= error.relativePath %>:<%= error.line %>',
-        message: '<%= error.messageOriginal %>',
-        open: 'file://<%= error.file %>',
-        onLast: true
+    bundleStyles: [
+        paths.bower + '/normalize-css/normalize.css',
+        paths.bower + '/font-awesome/css/font-awesome.css',
+        'src/styles/app.scss',
+    ],
+    bundleScripts: [
+        "bower_components/jQuery/dist/jquery.min.js",
+        "bower_components/knockout/dist/knockout.js",
+        "src/scripts/Model.js",
+        "src/scripts/TattooShop.js",
+        "src/scripts/ViewModel.js",
+        "src/scripts/App.js"
+    ],
+    errors: {
+        sass: {
+            title: 'Sass Error',
+            subtitle: '<%= error.relativePath %>:<%= error.line %>',
+            message: '<%= error.messageOriginal %>',
+            open: 'file://<%= error.file %>',
+            onLast: true
+        }
+    },
+    notify: {
+        scripts: { message: 'Scripts task complete' },
+        images: { message: 'Images task complete' },
+        styles: { message: 'Styles task complete' },
+        fonts: { message: 'Fonts task complete.' }
     }
 };
 
@@ -61,52 +93,85 @@ var errors = {
 // ----------------------------------
 // styles
 // ----------------------------------
-gulp.task('styles:build', function() {
+gulp.task('styles', function() {
     return gulp
-            .src(paths.input.styles)
-            .pipe(sourcemaps.init())
-            .pipe(sass(config.sass).on('error', notify.onError(errors.sass)))
-            .pipe(autoprefixer(config.autoprefixer))
-            .pipe(sourcemaps.write('.'))
-            .pipe(gulp.dest(paths.output.styles));
+            .src(config.bundleStyles)
+            .pipe(!config.production ? sourcemaps.init() : gutil.noop())
+            .pipe(concat('app.css'))
+            .pipe(sass(config.plugins.sass).on('error', notify.onError(config.errors.sass)))
+            .pipe(autoprefixer(config.plugins.autoprefixer))
+            .pipe(csso(config.plugins.csso))
+            .pipe(!config.production ? sourcemaps.write('.') : gutil.noop())
+            .pipe(gulp.dest(paths.output.styles))
+            .pipe(notify(config.notify.styles));
 });
 
 // ----------------------------------
 // scripts
 // ----------------------------------
-gulp.task('scripts:build', function() {
+gulp.task('scripts', function() {
     return gulp
-            .src(paths.input.scripts)
-            .pipe(sourcemaps.init())
-            .pipe(concat('bundle.js'))
+            .src(config.bundleScripts)
+            .pipe(!config.production ? sourcemaps.init() : gutil.noop())
+            .pipe(concat('app.js'))
             .pipe(uglify())
-            .pipe(sourcemaps.write('.'))
-            .pipe(gulp.dest(paths.output.scripts));
+            .pipe(!config.production ? sourcemaps.write('.') : gutil.noop())
+            .pipe(gulp.dest(paths.output.scripts))
+            .pipe(notify(config.notify.scripts));
+});
+
+// ----------------------------------
+// images
+// ----------------------------------
+gulp.task('images', function() {
+    return gulp
+            .src(paths.input.images)
+            .pipe(cache(imagemin(config.plugins.imagemin)))
+            .pipe(gulp.dest(paths.output.images))
+            .pipe(notify(config.notify.images));
+});
+
+// ----------------------------------
+// fonts
+// ----------------------------------
+gulp.task('fonts', function() {
+    return gulp
+            .src(paths.input.fonts)
+            .pipe(gulp.dest(paths.output.fonts))
+            .pipe(notify(config.notify.fonts));
 });
 
 // ----------------------------------
 // clean
 // ----------------------------------
 gulp.task('clean', function() {
-    return del([paths.output.build]);
+    return del([paths.build]);
 });
 
 // ----------------------------------
 // watch
 // ----------------------------------
 gulp.task('watch', function() {
-    // browserSync.init({
-    //     server: {
-    //         baseDir: "./"
-    //     }
-    // });
+    gulp.watch(paths.input.scripts, ['scripts']);
+    gulp.watch(paths.input.styles, ['styles']);
+    gulp.watch(paths.input.images, ['images']);
+});
 
-    // gulp.watch(paths.input.scripts, ['scripts:build']).on("change", reload);
-    // gulp.watch(paths.input.styles, ['styles:build']).on("change", reload);
-    gulp.watch(paths.input.styles, ['styles:build']);
+// ----------------------------------
+// build
+// pass --production to build production ready assets
+// ----------------------------------
+gulp.task('build', function() {
+    runSequence(
+        'clean',
+        'styles',
+        'scripts',
+        'images',
+        'fonts'
+    );
 });
 
 // ----------------------------------
 // default
 // ----------------------------------
-gulp.task('default', ['watch']);
+gulp.task('default', ['build']);

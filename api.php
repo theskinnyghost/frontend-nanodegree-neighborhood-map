@@ -183,9 +183,7 @@ function query_api($term, $location) {
         'image_url',
         'url',
         'phone',
-        'display_phone',
-        'review_count',
-        'rating'
+        'display_phone'
     );
 
     if( $return['found_results'] > 0 ) {

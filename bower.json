@@ -16,6 +16,8 @@
   ],
   "devDependencies": {
     "jQuery": "^3.2.1",
-    "knockout": "^3.4.2"
+    "knockout": "^3.4.2",
+    "font-awesome": "^4.7.0",
+    "normalize-css": "^6.0.0"
   }
 }

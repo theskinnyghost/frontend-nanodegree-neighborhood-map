@@ -1,0 +1,31 @@
+.list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.list__item {
+    cursor: pointer;
+    padding: 10px 20px;
+
+    &:not(:first-child) {
+        border-top: 1px solid $lightGray;
+    }
+
+    &:hover {
+        background-color: darken(#fff, 2%);
+    }
+}
+
+.list__itemTitle {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.list__itemContent {
+    display: block;
+    font-size: 14px;
+    margin-top: 5px;
+}
