@@ -14,13 +14,13 @@ app.TattooShop = function(shop) {
     /** Send an Ajax request to retrieve shops data with the YELP API. */
     self.setData = function() {
         $.ajax({
-            url: 'api.php',
+            url: 'https://www.michiamoluca.it/udacity/neighborhood/api.php',
             data: {
                 'search_term': self.name,
                 'latitude': self.location.lat,
                 'longitude': self.location.lng
             },
-            dataType: 'json',
+            dataType: 'jsonp',
             success: function(data) {
                 var result = data.results;
 

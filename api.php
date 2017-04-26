@@ -198,7 +198,7 @@ function query_api($term, $location) {
         }
     }
 
-    return json_encode($return);
+    return $return;
 }
 
 /**
@@ -216,9 +216,15 @@ $search_location = array(
     'longitude' => $longitude
 );
 
-header( 'Content-Type: application/json; charset=UTF-8' );
+if( $error ) {
+    $json_res = array(
+        'status' => 'error',
+        'message' => $error
+    );
+}
+else {
+    $json_res = query_api($search_term, $search_location);
+}
 
-if( $error )
-    echo json_encode(array('status' => 'error', 'message' => $error));
-else
-    echo query_api($search_term, $search_location);
+header( 'Content-Type: application/json; charset=UTF-8' );
+echo $_GET['callback'] . '(' . json_encode($json_res) . ')';

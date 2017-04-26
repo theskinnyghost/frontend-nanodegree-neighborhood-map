@@ -42,14 +42,6 @@ app.Model = [
         name: "Bloodlines Ink",
     },
     {
-        address: "1/69 Belmont Rd, Kenwick WA 6107, Australia",
-        location: {
-            lat: -32.0335793,
-            lng: 115.981859
-        },
-        name: "Johnny Two Thumb Perth Tattoo Studio",
-    },
-    {
         address: "909 Albany Hwy, East Victoria Park WA 6101, Australia",
         location: {
             lat: -31.98741710000001,
