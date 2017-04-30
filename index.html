@@ -1,26 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Neighborhood Map</title>
         <link href="https://fonts.googleapis.com/css?family=Asar" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="dist/styles/app.css">
-
+        <link href="dist/styles/app.css" rel="stylesheet">
     </head>
 
     <body>
-
         <div id="map" class="map"></div>
 
-        <div id="error"></div>
+        <div id="error" class="error"></div>
 
-        <button class="menu" data-bind="click: toggleMenu"><i class="fa fa-bars"></i></button>
+        <button class="menu" data-bind="click: toggleMenu, css: { 'menu--hidden' : hideMenu }"><i class="fa fa-bars"></i></button>
 
-        <div class="wrapper">
-
+        <div class="wrapper" data-bind="css: { 'wrapper--hidden' : hideMenu }">
             <div class="wrapper-inner">
-
                 <label class="search">
 
                     <input  type="text"
@@ -31,7 +27,6 @@
                 </label>
 
                 <div class="shop" data-bind="with: currentPlace, visible: shouldShowCurrentPlace">
-
                     <button class="shop__close" data-bind="click: $parent.closeInfoBox">&times;</button>
 
                     <h1 class="shop__title" data-bind="text: name"></h1>
@@ -41,26 +36,22 @@
                     <!-- /ko -->
 
                     <ul class="shop__info">
-
                         <li>
                             <i class="fa fa-map-marker"></i>
                             <span data-bind="text: address"></span>
                         </li>
-
                         <!-- ko if: yelp_data.phone -->
                         <li>
                             <i class="fa fa-phone"></i>
                             <a data-bind="text: yelp_data.display_phone, attr: {href: 'tel:' + yelp_data.phone}"></a>
                         </li>
                         <!-- /ko -->
-
                         <!-- ko if: yelp_data.url -->
                         <li>
                             <i class="fa fa-globe"></i>
                             <a data-bind="text: 'Find out more on YELP', attr: {href: yelp_data.url}"></a>
                         </li>
                         <!-- /ko -->
-
                     </ul>
 
                     <!-- ko if: !yelp_data.is_found -->
@@ -68,27 +59,18 @@
                     <!-- /ko -->
 
                     <p class="yelp">Data provided by YELP!</p>
-
                 </div>
 
                 <ul class="list" data-bind="foreach: visiblePlaces">
-
                     <li class="list__item" data-bind="click: $parent.showCurrentPlace">
-
                         <span class="list__itemTitle" data-bind="text: name"></span>
                         <span class="list__itemContent" data-bind="text: address"></span>
-
                     </li>
-
                 </ul>
-
             </div>
-
         </div>
 
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTxfE1nvYvl4IBrcGyExaX8sVD-sftC2c&callback=app.init"></script>
         <script src="dist/scripts/app.js"></script>
-
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTxfE1nvYvl4IBrcGyExaX8sVD-sftC2c&callback=app.init" onerror="app.handleError()"></script>
     </body>
-
 </html>

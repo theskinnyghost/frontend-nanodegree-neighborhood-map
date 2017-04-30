@@ -5,15 +5,16 @@ app.ListViewModel = function() {
 
     self.places = [];
     self.visiblePlaces = ko.observableArray([]);
-    self.searchQuery = ko.observable("");
+    self.searchQuery = ko.observable('');
     self.shouldShowCurrentPlace = ko.observable(false);
     self.currentPlace = ko.observable();
+    self.hideMenu = ko.observable(false);
 
     /** Close current place info panel */
     self.closeInfoBox = function() {
         self.currentPlace(null);
         self.shouldShowCurrentPlace(false);
-    }
+    };
 
     /** Set current place and show it */
     self.showCurrentPlace = function(place) {
@@ -24,14 +25,13 @@ app.ListViewModel = function() {
         if (place.marker.getAnimation() !== null) {
             place.marker.setAnimation(null);
         } else {
-            place.marker.setAnimation(google.maps.Animation.lo);
+            place.marker.setAnimation(google.maps.Animation.DROP);
         }
     };
 
     /** Hide the application info panel */
     self.toggleMenu = function() {
-        $('.menu').toggleClass('menu--hidden');
-        $('.wrapper').toggleClass('wrapper--hidden');
+        self.hideMenu(!self.hideMenu());
     };
 
     /** Build the google map object. */

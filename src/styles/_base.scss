@@ -23,6 +23,22 @@ body {
     width: $map_width;
 }
 
+.error {
+    background-color: $brown_yellow;
+    display: none;
+    left: 0;
+    padding: 10px 30px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    z-index: 99;
+
+    &:not(:empty) {
+        display: block;
+    }
+}
+
 .yelp {
     font-size: 10px;
     margin: 20px 0 5px;
