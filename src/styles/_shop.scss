@@ -4,17 +4,24 @@
 }
 
 .shop {
-    border-bottom: 1px solid $tropical_rain_forest;
+    background-color: $white;
     display: flex;
     flex-direction: column;
-    position: relative;
+    position: fixed;
+    z-index: 2;
+
+    @media screen and (max-width: 767px) {
+        border-bottom: 2px solid $tropical_rain_forest;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
 
     @media screen and (min-width: 768px) {
-        background-color: $white;
-        top: 10px;
+        border-bottom: 1px solid $tropical_rain_forest;
         max-width: $wrapper-width;
-        position: fixed;
         right: 30px;
+        top: 10px;
     }
 }
 

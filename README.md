@@ -3,8 +3,8 @@ You will develop a single-page application featuring a map of your neighborhood 
 
 ## Installation
 1. Download the repo
-2. Setup a local server with `python -m SimpleHTTPServer 8080`
-3. Run `npm install && bower install && gulp build`
+2. Run `npm install && bower install && gulp build --production` to build the assets
+3. Setup a local server with `python -m SimpleHTTPServer 8080`
 4. Open [localhost:8080](http://localhost:8080) in your browser to see the app
 
 You can see an [online version here](https://www.michiamoluca.it/udacity/neighborhood/)

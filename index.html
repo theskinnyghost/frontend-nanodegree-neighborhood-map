@@ -26,41 +26,6 @@
 
                 </label>
 
-                <div class="shop" data-bind="with: currentPlace, visible: shouldShowCurrentPlace">
-                    <button class="shop__close" data-bind="click: $parent.closeInfoBox">&times;</button>
-
-                    <h1 class="shop__title" data-bind="text: name"></h1>
-
-                    <!-- ko if: yelp_data.image -->
-                    <div class="shop__image" data-bind="attr: {style: 'background-image: url(' + yelp_data.image + ')'}"></div>
-                    <!-- /ko -->
-
-                    <ul class="shop__info">
-                        <li>
-                            <i class="fa fa-map-marker"></i>
-                            <span data-bind="text: address"></span>
-                        </li>
-                        <!-- ko if: yelp_data.phone -->
-                        <li>
-                            <i class="fa fa-phone"></i>
-                            <a data-bind="text: yelp_data.display_phone, attr: {href: 'tel:' + yelp_data.phone}"></a>
-                        </li>
-                        <!-- /ko -->
-                        <!-- ko if: yelp_data.url -->
-                        <li>
-                            <i class="fa fa-globe"></i>
-                            <a data-bind="text: 'Find out more on YELP', attr: {href: yelp_data.url}"></a>
-                        </li>
-                        <!-- /ko -->
-                    </ul>
-
-                    <!-- ko if: !yelp_data.is_found -->
-                    <p class="shop__error">We're sorry but we couldn't find any additional data related to this business.</p>
-                    <!-- /ko -->
-
-                    <p class="yelp">Data provided by YELP!</p>
-                </div>
-
                 <ul class="list" data-bind="foreach: visiblePlaces">
                     <li class="list__item" data-bind="click: $parent.showCurrentPlace">
                         <span class="list__itemTitle" data-bind="text: name"></span>
@@ -68,6 +33,41 @@
                     </li>
                 </ul>
             </div>
+        </div>
+
+        <div class="shop" data-bind="with: currentPlace, visible: shouldShowCurrentPlace">
+            <button class="shop__close" data-bind="click: $parent.closeInfoBox">&times;</button>
+
+            <h1 class="shop__title" data-bind="text: name"></h1>
+
+            <!-- ko if: yelp_data.image -->
+            <div class="shop__image" data-bind="attr: {style: 'background-image: url(' + yelp_data.image + ')'}"></div>
+            <!-- /ko -->
+
+            <ul class="shop__info">
+                <li>
+                    <i class="fa fa-map-marker"></i>
+                    <span data-bind="text: address"></span>
+                </li>
+                <!-- ko if: yelp_data.phone -->
+                <li>
+                    <i class="fa fa-phone"></i>
+                    <a data-bind="text: yelp_data.display_phone, attr: {href: 'tel:' + yelp_data.phone}"></a>
+                </li>
+                <!-- /ko -->
+                <!-- ko if: yelp_data.url -->
+                <li>
+                    <i class="fa fa-globe"></i>
+                    <a data-bind="text: 'Find out more on YELP', attr: {href: yelp_data.url}"></a>
+                </li>
+                <!-- /ko -->
+            </ul>
+
+            <!-- ko if: !yelp_data.is_found -->
+            <p class="shop__error">We're sorry but we couldn't find any additional data related to this business.</p>
+            <!-- /ko -->
+
+            <p class="yelp">Data provided by YELP!</p>
         </div>
 
         <script src="dist/scripts/app.js"></script>
